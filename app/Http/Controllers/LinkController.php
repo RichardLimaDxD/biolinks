@@ -8,33 +8,30 @@ use App\Models\Link;
 
 class LinkController extends Controller
 {
-    public function create(StoreLinkRequest $request)
+    public function create()
     {
         return view('links.create');
     }
 
     public function store(StoreLinkRequest $request)
     {
-        Link::query()->create(
-            $request->validated()
-        );
+        $user = auth()->user();
+
+        $user->Links()->create($request->validated());
 
         return to_route('dashboard');
     }
 
-    public function show(Link $link)
-    {
-        
-    }
-
     public function edit(Link $link)
     {
-        //
+        return view('links.edit', compact('link'));  
     }
-
+    
     public function update(UpdateLinkRequest $request, Link $link)
     {
-        //
+        $link->fill($request->validated())->save();
+        
+        return to_route('dashboard')->with('message', 'Link updated successfully');
     }
 
     public function destroy(Link $link)

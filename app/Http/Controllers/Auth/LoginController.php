@@ -20,6 +20,6 @@ class LoginController extends Controller
         if($request->attempt()) return to_route('dashboard');
         
         
-        return back()->with(["message" => "Usuário ou senha inválidos"]);
+        return back()->with(["message" => "Invalid credentials."]);
     }
 }
