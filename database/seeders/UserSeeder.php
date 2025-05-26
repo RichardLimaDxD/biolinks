@@ -17,14 +17,5 @@ class UserSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-
-        User::all()
-            ->each(function (User $user) {
-               Link::factory()
-                    ->count(random_int(5, 8))
-                    ->create([
-                        'user_id' => $user->id,
-                    ]);
-            });
     }
 }

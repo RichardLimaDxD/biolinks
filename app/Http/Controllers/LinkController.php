@@ -24,18 +24,45 @@ class LinkController extends Controller
 
     public function edit(Link $link)
     {
-        return view('links.edit', compact('link'));  
+        $this->authorize('permission', $link);
+
+        return view('links.edit', compact('link'));
     }
-    
+
     public function update(UpdateLinkRequest $request, Link $link)
     {
+        $this->authorize('permission', $link);
+
         $link->fill($request->validated())->save();
-        
-        return to_route('dashboard')->with('message', 'Link updated successfully');
+
+        return to_route('dashboard')
+            ->with('message', 'Link updated successfully');
     }
 
     public function destroy(Link $link)
     {
-        //
+        $this->authorize('permission', $link);
+
+        $link->delete();
+
+        return to_route('dashboard')->with('message', 'Deleted with success');
+    }
+
+    public function up(Link $link)
+    {
+        $this->authorize('permission', $link);
+
+        $link->moveUp();
+
+        return back();
+    }
+
+    public function down(Link $link)
+    {
+        $this->authorize('permission', $link);
+
+        $link->moveDown();
+
+        return back();
     }
 }

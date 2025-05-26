@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class DashboardController extends Controller
 {
     public function __invoke()
@@ -11,8 +9,9 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         return view('dashboard', [
-            'links' => $user->links,
-            'user' => $user,
+            'links' => $user->links()
+                ->orderBy('sort')
+                ->get()
         ]);
     }
 }
